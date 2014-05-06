@@ -1,5 +1,5 @@
-var game = require('game');
-var rules = require('rules');
+var rules = require('rpcls/rules');
+var game = require('rpcls/game');
 
 describe('Game module', function() {
 

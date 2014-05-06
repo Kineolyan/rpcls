@@ -1,4 +1,4 @@
-var rules = require('rules');
+var rules = require('rpcls/rules');
 
 describe('Rules of RPCLS', function() {
   it('has all signs', function() {
