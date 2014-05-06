@@ -14,12 +14,27 @@ describe('Game module', function() {
 
     expect(newGame.player1.score).toBe(0);
     expect(newGame.player2.score).toBe(0);
+    expect(newGame.turns).toBe(0);
   });
 
   describe('Game actions', function() {
 
     beforeEach(function() {
       this.newGame = new game.Game({ name: 'Olivier' }, { name: 'Reivilo' }, 3);
+    });
+
+    it('counts turns', function() {
+      this.newGame.play(rules.signs.ROCK, rules.signs.CISSORS);
+      expect(this.newGame.turns).toBe(1);
+
+      this.newGame.play(rules.signs.ROCK, rules.signs.CISSORS);
+      expect(this.newGame.turns).toBe(2);
+
+      this.newGame.play(rules.signs.ROCK, rules.signs.CISSORS);
+      expect(this.newGame.turns).toBe(3);
+
+      this.newGame.play(rules.signs.ROCK, rules.signs.CISSORS);
+      expect(this.newGame.turns).toBe(4);
     });
 
     it('makes player1 score 1 point', function() {
