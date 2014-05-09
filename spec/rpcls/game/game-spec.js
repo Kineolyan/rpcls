@@ -38,22 +38,25 @@ describe('Game module', function() {
     });
 
     it('makes player1 score 1 point', function() {
-      this.newGame.play(rules.signs.ROCK, rules.signs.CISSORS);
+      var winner = this.newGame.play(rules.signs.ROCK, rules.signs.CISSORS);
 
+      expect(winner).toBe(this.newGame.player1);
       expect(this.newGame.player1.score).toBe(1);
       expect(this.newGame.player2.score).toBe(0);
     });
 
     it('makes player2 score 1 point', function() {
-      this.newGame.play(rules.signs.PAPER, rules.signs.CISSORS);
+      var winner = this.newGame.play(rules.signs.PAPER, rules.signs.CISSORS);
 
+      expect(winner).toBe(this.newGame.player2);
       expect(this.newGame.player1.score).toBe(0);
       expect(this.newGame.player2.score).toBe(1);
     });
 
     it('accepts deuce', function() {
-      this.newGame.play(rules.signs.PAPER, rules.signs.PAPER);
+      var winner = this.newGame.play(rules.signs.PAPER, rules.signs.PAPER);
 
+      expect(winner).toBeNull();
       expect(this.newGame.player1.score).toBe(0);
       expect(this.newGame.player2.score).toBe(0);
     });
