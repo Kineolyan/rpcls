@@ -91,7 +91,7 @@ describe('Referee module', function() {
     spyOn(this.player1, 'deuce');
     spyOn(this.player2, 'deuce');
 
-    this.referee.setPlayer1Sign(signs.ROCK);
+    this.referee.play(this.player1, signs.ROCK);
     expect(this.player1.winSet).not.toHaveBeenCalled();
     expect(this.player2.winSet).not.toHaveBeenCalled();
     expect(this.player1.loseSet).not.toHaveBeenCalled();
@@ -104,7 +104,7 @@ describe('Referee module', function() {
     spyOn(this.player1, 'askToPlay');
     spyOn(this.player2, 'askToPlay');
 
-    this.referee.setPlayer2Sign(signs.CISSORS);
+    this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.winSet).toHaveBeenCalled();
     expect(this.player2.winSet).not.toHaveBeenCalled();
     expect(this.player1.loseSet).not.toHaveBeenCalled();
@@ -130,7 +130,7 @@ describe('Referee module', function() {
     spyOn(this.player1, 'deuce');
     spyOn(this.player2, 'deuce');
 
-    this.referee.setPlayer1Sign(signs.ROCK);
+    this.referee.play(this.player1, signs.ROCK);
     expect(this.player1.winSet).not.toHaveBeenCalled();
     expect(this.player2.winSet).not.toHaveBeenCalled();
     expect(this.player1.loseSet).not.toHaveBeenCalled();
@@ -143,7 +143,7 @@ describe('Referee module', function() {
     spyOn(this.player1, 'askToPlay');
     spyOn(this.player2, 'askToPlay');
 
-    this.referee.setPlayer2Sign(signs.ROCK);
+    this.referee.play(this.player2, signs.ROCK);
     expect(this.player1.winSet).not.toHaveBeenCalled();
     expect(this.player2.winSet).not.toHaveBeenCalled();
     expect(this.player1.loseSet).not.toHaveBeenCalled();
@@ -162,23 +162,23 @@ describe('Referee module', function() {
     this.referee.setPlayer2(this.player2);
     this.referee.startGame();
 
-    this.referee.setPlayer1Sign(signs.ROCK);
-    this.referee.setPlayer2Sign(signs.CISSORS);
+    this.referee.play(this.player1, signs.ROCK);
+    this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.score).toEqual(1);
     expect(this.player2.score).toEqual(0);
 
-    this.referee.setPlayer1Sign(signs.PAPER);
-    this.referee.setPlayer2Sign(signs.CISSORS);
+    this.referee.play(this.player1, signs.PAPER);
+    this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.score).toEqual(1);
     expect(this.player2.score).toEqual(1);
 
-    this.referee.setPlayer1Sign(signs.CISSORS);
-    this.referee.setPlayer2Sign(signs.CISSORS);
+    this.referee.play(this.player1, signs.CISSORS);
+    this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.score).toEqual(1);
     expect(this.player2.score).toEqual(1);
 
-    this.referee.setPlayer1Sign(signs.ROCK);
-    this.referee.setPlayer2Sign(signs.CISSORS);
+    this.referee.play(this.player1, signs.ROCK);
+    this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.score).toEqual(2);
     expect(this.player2.score).toEqual(1);
      
@@ -195,8 +195,8 @@ describe('Referee module', function() {
     spyOn(this.player1, 'askToPlay');
     spyOn(this.player2, 'askToPlay');
 
-    this.referee.setPlayer1Sign(signs.SPOCK);
-    this.referee.setPlayer2Sign(signs.CISSORS);
+    this.referee.play(this.player1, signs.SPOCK);
+    this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.win).toHaveBeenCalled();
     expect(this.player2.win).not.toHaveBeenCalled();
     expect(this.player1.lose).not.toHaveBeenCalled();
