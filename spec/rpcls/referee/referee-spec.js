@@ -16,28 +16,6 @@ MockPlayer.prototype = {
   endGame: voidFunction
 };
 
-// { [Function]
-//   identity: 'gameCreated',
-//   isSpy: true,
-//   plan: [Function],
-//   mostRecentCall: 
-//    { object: { gameCreated: [Circular], referee: [Object] },
-//      args: [ 0 ] },
-//   argsForCall: [ [ 0 ] ],
-//   calls: [ { object: [Object], args: [Object] } ],
-//   andCallThrough: [Function],
-//   andReturn: [Function],
-//   andThrow: [Function],
-//   andCallFake: [Function],
-//   reset: [Function],
-//   wasCalled: true,
-//   callCount: 1,
-//   baseObj: 
-//    { gameCreated: [Circular],
-//      referee: { gameId: 0, sign1: null, sign2: null, player1: [Circular] } },
-//   methodName: 'gameCreated',
-//   originalValue: [Function: voidFunction] }
-
 describe('Referee module', function() {
 
   beforeEach(function() {
@@ -77,7 +55,7 @@ describe('Referee module', function() {
     this.referee.startGame();
     expect(this.player1.askToPlay.calls.length).toEqual(1);
     expect(this.player2.askToPlay.calls.length).toEqual(1);
-  }); 
+  });
 
   it('plays a set with win of player1', function() {
     this.referee.setPlayer1(this.player1);
@@ -93,11 +71,12 @@ describe('Referee module', function() {
 
     this.referee.play(this.player1, signs.ROCK);
     expect(this.player1.winSet).not.toHaveBeenCalled();
-    expect(this.player2.winSet).not.toHaveBeenCalled();
     expect(this.player1.loseSet).not.toHaveBeenCalled();
-    expect(this.player2.loseSet).not.toHaveBeenCalled();
     expect(this.player1.deuce).not.toHaveBeenCalled();
+    expect(this.player2.winSet).not.toHaveBeenCalled();
+    expect(this.player2.loseSet).not.toHaveBeenCalled();
     expect(this.player2.deuce).not.toHaveBeenCalled();
+
     expect(this.player1.score).toEqual(0);
     expect(this.player2.score).toEqual(0);
 
@@ -105,12 +84,14 @@ describe('Referee module', function() {
     spyOn(this.player2, 'askToPlay');
 
     this.referee.play(this.player2, signs.CISSORS);
-    expect(this.player1.winSet).toHaveBeenCalled();
-    expect(this.player2.winSet).not.toHaveBeenCalled();
+    expect(this.player1.winSet).toHaveBeenCalledWith(signs.CISSORS);
     expect(this.player1.loseSet).not.toHaveBeenCalled();
-    expect(this.player2.loseSet).toHaveBeenCalled();
     expect(this.player1.deuce).not.toHaveBeenCalled();
+
+    expect(this.player2.winSet).not.toHaveBeenCalled();
+    expect(this.player2.loseSet).toHaveBeenCalledWith(signs.ROCK);
     expect(this.player2.deuce).not.toHaveBeenCalled();
+
     expect(this.player1.score).toEqual(1);
     expect(this.player2.score).toEqual(0);
 
@@ -118,7 +99,49 @@ describe('Referee module', function() {
     expect(this.player2.askToPlay.calls.length).toEqual(1);
   });
 
-  it('plays a se with a deuce', function() {
+  it('plays a set with win of player2', function() {
+    this.referee.setPlayer1(this.player1);
+    this.referee.setPlayer2(this.player2);
+    this.referee.startGame();
+
+    spyOn(this.player1, 'winSet');
+    spyOn(this.player2, 'winSet');
+    spyOn(this.player1, 'loseSet');
+    spyOn(this.player2, 'loseSet');
+    spyOn(this.player1, 'deuce');
+    spyOn(this.player2, 'deuce');
+
+    this.referee.play(this.player1, signs.ROCK);
+    expect(this.player1.winSet).not.toHaveBeenCalled();
+    expect(this.player1.loseSet).not.toHaveBeenCalled();
+    expect(this.player1.deuce).not.toHaveBeenCalled();
+    expect(this.player2.winSet).not.toHaveBeenCalled();
+    expect(this.player2.loseSet).not.toHaveBeenCalled();
+    expect(this.player2.deuce).not.toHaveBeenCalled();
+
+    expect(this.player1.score).toEqual(0);
+    expect(this.player2.score).toEqual(0);
+
+    spyOn(this.player1, 'askToPlay');
+    spyOn(this.player2, 'askToPlay');
+
+    this.referee.play(this.player2, signs.PAPER);
+    expect(this.player1.winSet).not.toHaveBeenCalled();
+    expect(this.player1.loseSet).toHaveBeenCalledWith(signs.PAPER);
+    expect(this.player1.deuce).not.toHaveBeenCalled();
+
+    expect(this.player2.winSet).toHaveBeenCalledWith(signs.ROCK);
+    expect(this.player2.loseSet).not.toHaveBeenCalled();
+    expect(this.player2.deuce).not.toHaveBeenCalled();
+
+    expect(this.player1.score).toEqual(0);
+    expect(this.player2.score).toEqual(1);
+
+    expect(this.player1.askToPlay.calls.length).toEqual(1);
+    expect(this.player2.askToPlay.calls.length).toEqual(1);
+  });
+
+  it('plays a set with a deuce', function() {
     this.referee.setPlayer1(this.player1);
     this.referee.setPlayer2(this.player2);
     this.referee.startGame();
@@ -198,15 +221,15 @@ describe('Referee module', function() {
     this.referee.play(this.player1, signs.SPOCK);
     this.referee.play(this.player2, signs.CISSORS);
     expect(this.player1.win).toHaveBeenCalled();
-    expect(this.player2.win).not.toHaveBeenCalled();
     expect(this.player1.lose).not.toHaveBeenCalled();
+    expect(this.player2.win).not.toHaveBeenCalled();
     expect(this.player2.lose).toHaveBeenCalled();
 
     expect(this.player1.winSet).toHaveBeenCalled();
-    expect(this.player2.winSet).not.toHaveBeenCalled();
     expect(this.player1.loseSet).not.toHaveBeenCalled();
-    expect(this.player2.loseSet).toHaveBeenCalled();
     expect(this.player1.deuce).not.toHaveBeenCalled();
+    expect(this.player2.winSet).not.toHaveBeenCalled();
+    expect(this.player2.loseSet).toHaveBeenCalled();
     expect(this.player2.deuce).not.toHaveBeenCalled();
 
     expect(this.player1.score).toEqual(3);
