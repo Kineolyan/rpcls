@@ -190,6 +190,14 @@ describe('Client module', function() {
       expect(this.socket.write.mostRecentCall.args).toEqual([ expectedMessage ]);
     });
 
+    it('sends errors', function() {
+      var error = 'This is a mistake';
+      this.client.sendError(error);
+
+      var expectedMessage = msg.encode('Server', { command: 'error', args: [ error ] });
+      expect(this.socket.write.mostRecentCall.args).toEqual([ expectedMessage ]);
+    });
+
   });
 
 });
